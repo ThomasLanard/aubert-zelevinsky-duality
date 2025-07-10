@@ -329,13 +329,14 @@ def AD_gl(
     """
     # Copy input to mutable list of lists
     mutable_segments = [[a, b] for a, b in mult]
+
+    # Initial sort
+    sort_multisegment(mutable_segments)
+    
     dual = []
 
     step = 1
     while mutable_segments:
-        # Sort as required by the algorithm
-        sort_multisegment(mutable_segments)
-
         i = index_max_end(mutable_segments)
         e = mutable_segments[i][1]
         e0 = e
@@ -351,7 +352,11 @@ def AD_gl(
         dual.append(dual_seg)
 
         # Filter out empty/invalid segments
-        mutable_segments[:] = [seg for seg in mutable_segments if seg[1] >= seg[0]]
+        new_segments = []
+        for seg in mutable_segments:
+            if seg[1] >= seg[0]:
+                new_segments.append(seg)
+        mutable_segments = new_segments
 
         # Verbose output
         if print_step is not None:
