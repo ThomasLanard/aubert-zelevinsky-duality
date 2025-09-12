@@ -140,6 +140,37 @@ from aubert_dual import AD
 
 ---
 
+## 🔍 Input Validation
+
+By default, the Aubert–Zelevinsky duality function performs input validation to check that segments, Langlands parameters, and signs satisfy the expected mathematical conditions.
+
+Disabling validation can help improve performance when inputs are known to be valid.
+
+### ✅ Disable validation globally
+
+You can disable validation either permanently during a session, or temporarily using a context manager.
+
+#### Option 1 — Programmatic control
+
+```python
+from aubert_dual import set_validation
+
+set_validation(False)  # disables validation
+result = AD("good", m, T)
+set_validation(True)   # re-enables validation
+```
+
+#### Option 2 — Context manager (temporary)
+
+```python
+from aubert_dual import disable_validation
+
+with disable_validation():
+    result = AD("ugly", m, m_contr, T)
+```
+
+---
+
 ## 📚 Bibliography
 
 The implementation is based on:
@@ -151,5 +182,5 @@ The implementation is based on:
 ## 📁 Files
 
 - `aubert_dual.py` – main implementation of the algorithms
-- `README.md` – documentation
+- `documentation.pdf` – documentation (coming soon)
 

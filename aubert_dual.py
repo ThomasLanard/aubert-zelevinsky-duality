@@ -7,9 +7,10 @@
 # Imports
 # =========================================================
 
-from typing import List, Tuple, Sequence, Dict, Any
+from typing import List, Tuple, Sequence, Dict, Any, Union
 from collections import defaultdict, Counter
 from functools import wraps
+from contextlib import contextmanager
 
 # =========================================================
 # Types
@@ -21,6 +22,35 @@ LanglandsParameter = Tuple[Any, ...]
 EnhancedParameter = Tuple[Tuple[Any, int], ...]
 LanglandsData = Tuple[Multisegment, LanglandsParameter]
 LabeledSegment = List[Any]
+
+# =========================================================
+# Global Validation Control
+# =========================================================
+
+VALIDATION_ENABLED = True
+
+def set_validation(enabled: bool) -> None:
+    """
+    Enable or disable global validation logic.
+
+    Args:
+        enabled (bool): If True, enable validation. If False, disable it.
+    """
+    global VALIDATION_ENABLED
+    VALIDATION_ENABLED = enabled
+
+@contextmanager
+def disable_validation():
+    """
+    Context manager to temporarily disable validation inside a with-block.
+    """
+    global VALIDATION_ENABLED
+    old_value = VALIDATION_ENABLED
+    VALIDATION_ENABLED = False
+    try:
+        yield
+    finally:
+        VALIDATION_ENABLED = old_value
 
 # =========================================================
 # Validation Utilities
@@ -895,7 +925,7 @@ def AD(
     case: str = None,
     *args,
     verbose: bool = False
-) -> Tuple[LanglandsData, LanglandsData] | LanglandsData | Multisegment:
+) -> Union[Tuple[LanglandsData, LanglandsData], LanglandsData, Multisegment]:
     """
     Unified interface for the Aubert–Zelevinsky involution algorithm.
     
