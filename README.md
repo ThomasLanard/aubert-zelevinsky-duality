@@ -175,7 +175,7 @@ with disable_validation():
 
 The implementation is based on:
 
-- T. Lanard and A. Mínguez, *A Moeglin-Waldspurger algorithm for the Aubert-Zelevinsky duality*.
+- T. Lanard and A. Mínguez, *An algorithm for Aubert-Zelevinsky duality à la Mœglin-Waldspurger*.
 
 ---
 
